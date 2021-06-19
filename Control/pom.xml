@@ -17,12 +17,12 @@
 		<dependency>
 			<groupId>co.com.sofka</groupId>
 			<artifactId>domain</artifactId>
-			<version>1.0.0</version>
+			<version>0.9.5</version>
 		</dependency>
 		<dependency>
 			<groupId>co.com.sofka</groupId>
 			<artifactId>business</artifactId>
-			<version>1.0.0</version>
+			<version>0.9.5</version>
 		</dependency>
 		<dependency>
 			<groupId>co.com.sofka</groupId>
@@ -111,6 +111,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.12.8</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -118,6 +123,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>10</source>
+					<target>10</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
