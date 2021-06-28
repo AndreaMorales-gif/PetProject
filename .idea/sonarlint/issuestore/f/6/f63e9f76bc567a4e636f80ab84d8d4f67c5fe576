@@ -1,0 +1,6 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(”Í½²
+-
+java:S1700!"Rename field "response"(åÏ¸
+z
+java:S1488"dImmediately return this expression instead of assigning it to the temporary variable "registerData".(¼”Çæ
