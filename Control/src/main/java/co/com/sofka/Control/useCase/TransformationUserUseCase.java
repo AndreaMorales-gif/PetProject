@@ -15,8 +15,11 @@ public class TransformationUserUseCase {
     private IUserDataRepository data;
 
     public UserData transform(User user){
-        UserData userData = new UserData(user.getIdUser(), user.getName().value(), user.getRole().value(), user.getDate().value(),user.getEmail().value());
+        UserData userData = new UserData(user.getIdUser(), user.getName().value(), user.getDate().value(),user.getEmail().value());
         return userData;
+    }
+    public Iterable<UserData> listar(){
+        return data.findAll();
     }
 
     public String delete(String id) {

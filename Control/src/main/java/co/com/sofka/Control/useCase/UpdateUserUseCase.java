@@ -18,13 +18,13 @@ public class UpdateUserUseCase extends UseCase<RequestCommand<UpdateUser>, Updat
     @Override
     public void executeUseCase(RequestCommand<UpdateUser> updateUserRequestCommand) {
         var command = updateUserRequestCommand.getCommand();
-        var user = new User(command.UserId(), command.Name(), command.Role(), command.Date(), command.Email());
+        var user = new User(command.UserId(), command.Name(), command.Date(), command.Email());
         data.save(transform(user));
         emit().onResponse(new Response(user));
     }
 
     public UserData transform(User user){
-        UserData userData = new UserData(user.getIdUser(), user.getName().value(), user.getRole().value(), user.getDate().value(),user.getEmail().value());
+        UserData userData = new UserData(user.getIdUser(), user.getName().value(), user.getDate().value(),user.getEmail().value());
         return userData;
     }
 

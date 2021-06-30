@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IRegisterDataRepository extends CrudRepository<RegisterData, String> {
-
+    /*Iterable <RegisterData> findByIdUser (String userId);*/
 }

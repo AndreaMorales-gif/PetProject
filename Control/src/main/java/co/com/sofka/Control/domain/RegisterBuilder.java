@@ -4,6 +4,7 @@ import co.com.sofka.Control.domain.value.EntryDate;
 import co.com.sofka.Control.domain.value.UserId;
 
 public final class RegisterBuilder {
+    protected String idRegister;
     protected UserId userId;
     protected EntryDate entryDate;
 
@@ -12,6 +13,11 @@ public final class RegisterBuilder {
 
     public static RegisterBuilder aRegister() {
         return new RegisterBuilder();
+    }
+
+    public RegisterBuilder withIdRegister(String idRegister) {
+        this.idRegister = idRegister;
+        return this;
     }
 
     public RegisterBuilder withUserId(UserId userId) {
@@ -25,6 +31,8 @@ public final class RegisterBuilder {
     }
 
     public Register build() {
-        return new Register(null, userId, entryDate);
+        Register register = new Register(null, userId, entryDate);
+        register.setIdRegister(idRegister);
+        return register;
     }
 }

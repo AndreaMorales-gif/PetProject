@@ -6,15 +6,13 @@ import co.com.sofka.domain.generic.DomainEvent;
 public class UserUpdated extends DomainEvent {
     private final UserId userId;
     private final Name name;
-    private final Role role;
     private final Date date;
     private final Email email;
 
-    public UserUpdated(UserId userId, Name name, Role role, Date date, Email email) {
+    public UserUpdated(UserId userId, Name name, Date date, Email email) {
         super("user.updated");
         this.userId = userId;
         this.name = name;
-        this.role = role;
         this.date = date;
         this.email = email;
     }
@@ -22,8 +20,6 @@ public class UserUpdated extends DomainEvent {
     public UserId UserId() { return userId; }
 
     public Name Name() { return name; }
-
-    public Role Role() { return role; }
 
     public Date Date() { return date; }
 

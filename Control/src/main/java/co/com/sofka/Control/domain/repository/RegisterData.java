@@ -9,6 +9,7 @@ public class RegisterData {
 
     @Id
     protected String id;
+
     protected String userId;
     protected String entryDate;
 

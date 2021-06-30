@@ -5,6 +5,7 @@ import co.com.sofka.Control.domain.commands.CreateUser;
 import co.com.sofka.Control.domain.commands.UpdateUser;
 import co.com.sofka.Control.domain.events.UserCreated;
 import co.com.sofka.Control.domain.repository.RegisterData;
+import co.com.sofka.Control.domain.repository.UserData;
 import co.com.sofka.Control.domain.value.*;
 import co.com.sofka.Control.useCase.CreateRegisterUseCase;
 import co.com.sofka.Control.useCase.CreateUserUseCase;
@@ -27,39 +28,45 @@ public class UserController {
     @Autowired
     private TransformationUserUseCase transformationUserUseCase;
 
-    @PostMapping(value = "api/{userId}/{name}/{role}/{date}/{email}")
+    @PostMapping(value = "api/saveUsers/{userId}/{name}/{date}/{email}")
     public String save(@PathVariable("userId")String userId,
                        @PathVariable("name")String name,
-                       @PathVariable("role")String role,
                        @PathVariable("date")String date,
                        @PathVariable("email")String email)
     {
-        var command = new CreateUser(UserId.of(userId), new Name(name),new Role(role),new Date(date),new Email(email));
+        var command = new CreateUser(UserId.of(userId),
+                new Name(name),
+                new Date(date),
+                new Email(email));
         CreateUserUseCase.Response userCreated = executedUseCase(command);
-        return (userCreated.getResponse().getName().value()+
-                " "+userCreated.getResponse().getRole().value()+
-                " "+userCreated.getResponse().getDate().value()+
-                " "+userCreated.getResponse().getEmail().value());
+        String string = "{"
+                + "\"userId\":" + "\""+userCreated.getResponse().identity()+"\""+ ","
+                + "\"name\":" + "\""+userCreated.getResponse().getName()+"\""+ ","
+                + "\"date\":" + "\""+userCreated.getResponse().getDate()+"\""+ ","
+                + "\"email\":" + "\""+userCreated.getResponse().getEmail()
+                +"}";
+        return string;
     }
 
-    @PutMapping(value = "api/update/{userId}/{name}/{role}/{date}/{email}")
+    @PutMapping(value = "api/updateUsers/{userId}/{name}/{date}/{email}")
     public String update (@PathVariable("userId")String userId,
                           @PathVariable("name")String name,
-                          @PathVariable("role")String role,
                           @PathVariable("date")String date,
                           @PathVariable("email")String email)
     {
         var command = new UpdateUser(UserId.of(userId),
                 new Name(name),
-                new Role(role),
                 new Date(date),
                 new Email(email));
 
         UpdateUserUseCase.Response userUpdated = executedUseCase(command);
-        return (userUpdated.getResponse().getName().value()+
-                " "+userUpdated.getResponse().getRole().value()+
-                " "+userUpdated.getResponse().getDate().value()+
-                " "+userUpdated.getResponse().getEmail().value());
+        String string = "{"
+                + "\"userId\":" + "\""+userUpdated.getResponse().identity()+"\""+ ","
+                + "\"name\":" + "\""+userUpdated.getResponse().getName()+"\""+ ","
+                + "\"date\":" + "\""+userUpdated.getResponse().getDate()+"\""+ ","
+                + "\"email\":" + "\""+userUpdated.getResponse().getEmail()
+                +"}";
+        return string;
 
     }
     private UpdateUserUseCase.Response executedUseCase(UpdateUser command) {
@@ -76,6 +83,10 @@ public class UserController {
                 .orElseThrow();
         var UserCreated = events;
         return UserCreated;
+    }
+
+    @GetMapping(value = "api/findUsers")
+    public Iterable<UserData> listar(){ return (transformationUserUseCase.listar());
     }
 
     @DeleteMapping(value = "api/deleteUsers/{id}")

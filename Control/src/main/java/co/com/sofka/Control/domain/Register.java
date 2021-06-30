@@ -34,4 +34,5 @@ public class Register extends AggregateRoot<RegisterId> {
     public EntryDate getEntryDate() {
         return entryDate;
     }
+
 }

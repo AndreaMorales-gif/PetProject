@@ -16,6 +16,9 @@ public class TransformationRegisterUseCase {
         RegisterData registerData = new RegisterData(register.getIdRegister(), register.getUserId().value(), register.getEntryDate().value());
         return registerData;
     }
+
+    /*public Iterable<RegisterData> listarUsers(String userId) { return data.findByIdUser(userId);}*/
+
     public Iterable<RegisterData> listar(){
         return data.findAll();
     }

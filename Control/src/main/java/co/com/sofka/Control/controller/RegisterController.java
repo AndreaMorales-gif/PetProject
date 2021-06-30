@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class RegisterController {
 
     @Autowired
-    private CreateRegisterUseCase useCase;
+    private CreateRegisterUseCase createRegisterUseCase;
     @Autowired
     private TransformationRegisterUseCase transformationRegisterUseCase;
 
@@ -26,25 +26,32 @@ public class RegisterController {
                        @PathVariable("userId")String userId,
                        @PathVariable("entryDate")String entryDate)
                        {
-        var command = new CreateRegister(RegisterId.of(registerId), UserId.of(userId), new EntryDate(entryDate));
+        var command = new CreateRegister(RegisterId.of(registerId), UserId.of(userId),
+                new EntryDate(entryDate));
+
         CreateRegisterUseCase.Response registerCreated = executedUseCase(command);
-        return (registerCreated.getResponse().getUserId().value()+
-                " "+registerCreated.getResponse().getEntryDate().value());
+        String string = "{"
+                + "\"registerId\":" + "\""+registerCreated.getResponse().identity()+"\""+ ","
+                + "\"userId\":" + "\""+registerCreated.getResponse().getUserId()+"\""+ ","
+                + "\"entryDate\":" + "\""+registerCreated.getResponse().getEntryDate()
+                +"}";
+        return string;
     }
 
     private CreateRegisterUseCase.Response executedUseCase(CreateRegister command) {
       var events= UseCaseHandler.getInstance()
-                .syncExecutor(useCase, new RequestCommand<>(command))
+                .syncExecutor(createRegisterUseCase, new RequestCommand<>(command))
                 .orElseThrow();
         var RegisterCreated = events;
         return RegisterCreated;
     }
+
+
     @GetMapping(value = "api/findRegisters")
     public Iterable<RegisterData> listar(){ return (transformationRegisterUseCase.listar());
     }
 
     @DeleteMapping(value = "api/deleteRegisters/{id}")
     public String delete(@PathVariable("id") String id){ return (transformationRegisterUseCase.delete(id)); }
-
 
 }

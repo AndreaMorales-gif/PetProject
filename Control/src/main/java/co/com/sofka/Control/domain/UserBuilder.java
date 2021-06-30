@@ -3,11 +3,10 @@ package co.com.sofka.Control.domain;
 import co.com.sofka.Control.domain.value.Date;
 import co.com.sofka.Control.domain.value.Email;
 import co.com.sofka.Control.domain.value.Name;
-import co.com.sofka.Control.domain.value.Role;
 
 public final class UserBuilder {
+    protected String idUser;
     protected Name name;
-    protected Role role;
     protected Date date;
     protected Email email;
 
@@ -18,13 +17,13 @@ public final class UserBuilder {
         return new UserBuilder();
     }
 
-    public UserBuilder withName(Name name) {
-        this.name = name;
+    public UserBuilder withIdUser(String idUser) {
+        this.idUser = idUser;
         return this;
     }
 
-    public UserBuilder withRole(Role role) {
-        this.role = role;
+    public UserBuilder withName(Name name) {
+        this.name = name;
         return this;
     }
 
@@ -39,6 +38,8 @@ public final class UserBuilder {
     }
 
     public User build() {
-        return new User(null, name, role, date, email);
+        User user = new User(null, name, date, email);
+        user.setIdUser(idUser);
+        return user;
     }
 }

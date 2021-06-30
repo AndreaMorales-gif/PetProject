@@ -11,15 +11,13 @@ public class User extends Entity<UserId> {
     protected String idUser;
 
     protected Name name;
-    protected Role role;
     protected Date date;
     protected Email email;
 
-    public User(UserId entityId, Name name, Role role, Date date, Email email) {
+    public User(UserId entityId, Name name, Date date, Email email) {
         super(entityId);
         this.idUser= entityId.value();
         this.name = name;
-        this.role = role;
         this.date = date;
         this.email = email;
     }
@@ -31,10 +29,6 @@ public class User extends Entity<UserId> {
 
     public Name getName() {
         return name;
-    }
-
-    public Role getRole() {
-        return role;
     }
 
     public Date getDate() {
