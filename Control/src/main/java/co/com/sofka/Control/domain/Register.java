@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "RegisterAndrea")
 public class Register extends AggregateRoot<RegisterId> {
+
     @Id
     protected String idRegister;
 
@@ -21,6 +22,7 @@ public class Register extends AggregateRoot<RegisterId> {
         this.entryDate = entryDate;
         this.userId = userId;
     }
+
     public void setIdRegister(String idRegister) {
         this.idRegister = idRegister;
     }

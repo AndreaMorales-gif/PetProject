@@ -51,6 +51,10 @@ public class RegisterController {
     public Iterable<RegisterData> listar(){ return (transformationRegisterUseCase.listar());
     }
 
+    @GetMapping(value = "api/validarIngreso/{id}")
+    public String validar(@PathVariable("id") String id){ return (transformationRegisterUseCase.validarIngreso(id)); }
+
+
     @DeleteMapping(value = "api/deleteRegisters/{id}")
     public String delete(@PathVariable("id") String id){ return (transformationRegisterUseCase.delete(id)); }
 
