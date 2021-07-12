@@ -34,18 +34,25 @@ public class UserController {
                        @PathVariable("date")String date,
                        @PathVariable("email")String email)
     {
-        var command = new CreateUser(UserId.of(userId),
+        CreateUser command = new CreateUser(UserId.of(userId),
                 new Name(name),
                 new Date(date),
                 new Email(email));
         CreateUserUseCase.Response userCreated = executedUseCase(command);
         String string = "{"
                 + "\"userId\":" + "\""+userCreated.getResponse().identity()+"\""+ ","
-                + "\"name\":" + "\""+userCreated.getResponse().getName()+"\""+ ","
-                + "\"date\":" + "\""+userCreated.getResponse().getDate()+"\""+ ","
-                + "\"email\":" + "\""+userCreated.getResponse().getEmail()
+                + "\"name\":" + "\""+userCreated.getResponse().getName().value()+"\""+ ","
+                + "\"date\":" + "\""+userCreated.getResponse().getDate().value()+"\""+ ","
+                + "\"email\":" + "\""+userCreated.getResponse().getEmail().value()
                 +"}";
         return string;
+    }
+    private CreateUserUseCase.Response executedUseCase(CreateUser command) {
+        CreateUserUseCase.Response events= UseCaseHandler.getInstance()
+                .syncExecutor(useCase, new RequestCommand<>(command))
+                .orElseThrow();
+        CreateUserUseCase.Response UserCreated = events;
+        return UserCreated;
     }
 
     @PutMapping(value = "api/updateUsers/{userId}/{name}/{date}/{email}")
@@ -54,7 +61,7 @@ public class UserController {
                           @PathVariable("date")String date,
                           @PathVariable("email")String email)
     {
-        var command = new UpdateUser(UserId.of(userId),
+        UpdateUser command = new UpdateUser(UserId.of(userId),
                 new Name(name),
                 new Date(date),
                 new Email(email));
@@ -64,26 +71,20 @@ public class UserController {
                 + "\"userId\":" + "\""+userUpdated.getResponse().identity()+"\""+ ","
                 + "\"name\":" + "\""+userUpdated.getResponse().getName()+"\""+ ","
                 + "\"date\":" + "\""+userUpdated.getResponse().getDate()+"\""+ ","
-                + "\"email\":" + "\""+userUpdated.getResponse().getEmail()
+                + "\"email\":" + "\""+userUpdated.getResponse().getEmail().value()
                 +"}";
         return string;
 
     }
     private UpdateUserUseCase.Response executedUseCase(UpdateUser command) {
-        var events= UseCaseHandler.getInstance()
+        UpdateUserUseCase.Response events= UseCaseHandler.getInstance()
                 .syncExecutor(updateUserUseCase, new RequestCommand<>(command))
                 .orElseThrow();
-        var UserUpdated = events;
+        UpdateUserUseCase.Response UserUpdated = events;
         return (UpdateUserUseCase.Response)UserUpdated;
     }
 
-    private CreateUserUseCase.Response executedUseCase(CreateUser command) {
-        var events= UseCaseHandler.getInstance()
-                .syncExecutor(useCase, new RequestCommand<>(command))
-                .orElseThrow();
-        var UserCreated = events;
-        return UserCreated;
-    }
+
 
     @GetMapping(value = "api/findUsers")
     public Iterable<UserData> listar(){ return (transformationUserUseCase.listar());

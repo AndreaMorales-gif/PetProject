@@ -26,23 +26,23 @@ public class RegisterController {
                        @PathVariable("userId")String userId,
                        @PathVariable("entryDate")String entryDate)
                        {
-        var command = new CreateRegister(RegisterId.of(registerId), UserId.of(userId),
+                           CreateRegister command = new CreateRegister(RegisterId.of(registerId), UserId.of(userId),
                 new EntryDate(entryDate));
 
         CreateRegisterUseCase.Response registerCreated = executedUseCase(command);
         String string = "{"
                 + "\"registerId\":" + "\""+registerCreated.getResponse().identity()+"\""+ ","
                 + "\"userId\":" + "\""+registerCreated.getResponse().getUserId()+"\""+ ","
-                + "\"entryDate\":" + "\""+registerCreated.getResponse().getEntryDate()
+                + "\"entryDate\":" + "\""+registerCreated.getResponse().getEntryDate().value()
                 +"}";
         return string;
     }
 
     private CreateRegisterUseCase.Response executedUseCase(CreateRegister command) {
-      var events= UseCaseHandler.getInstance()
+        CreateRegisterUseCase.Response events= UseCaseHandler.getInstance()
                 .syncExecutor(createRegisterUseCase, new RequestCommand<>(command))
                 .orElseThrow();
-        var RegisterCreated = events;
+        CreateRegisterUseCase.Response RegisterCreated = events;
         return RegisterCreated;
     }
 
@@ -50,6 +50,12 @@ public class RegisterController {
     @GetMapping(value = "api/findRegisters")
     public Iterable<RegisterData> listar(){ return (transformationRegisterUseCase.listar());
     }
+
+    @GetMapping(value = "api/findRegister/{id}")
+    public RegisterData listarId(@PathVariable("id") String id){
+        return (transformationRegisterUseCase.listarId(id));
+    }
+
 
     @GetMapping(value = "api/validarIngreso/{id}")
     public String validar(@PathVariable("id") String id){ return (transformationRegisterUseCase.validarIngreso(id)); }

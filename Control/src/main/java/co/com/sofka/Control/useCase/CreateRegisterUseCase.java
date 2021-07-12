@@ -17,8 +17,8 @@ public class CreateRegisterUseCase extends UseCase<RequestCommand<CreateRegister
 
     @Override
     public void executeUseCase(RequestCommand<CreateRegister> createRegisterRequestCommand) {
-        var command = createRegisterRequestCommand.getCommand();
-        var register = new Register(command.registerId(), command.userId(), command.entryDate());
+        CreateRegister command = createRegisterRequestCommand.getCommand();
+        Register register = new Register(command.registerId(), command.userId(), command.entryDate());
         data.save(transform(register));
         emit().onResponse(new Response(register));
     }

@@ -19,8 +19,8 @@ public class CreateUserUseCase extends UseCase<RequestCommand<CreateUser>, Creat
 
     @Override
     public void executeUseCase(RequestCommand<CreateUser> createUserRequestCommand) {
-        var command = createUserRequestCommand.getCommand();
-        var user = new User(command.UserId(), command.Name(), command.Date(), command.Email());
+        CreateUser command = createUserRequestCommand.getCommand();
+        User user = new User(command.UserId(), command.Name(), command.Date(), command.Email());
         data.save(transform(user));
         emit().onResponse(new Response(user));
     }

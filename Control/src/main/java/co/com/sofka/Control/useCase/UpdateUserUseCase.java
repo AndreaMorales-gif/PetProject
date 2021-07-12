@@ -17,8 +17,8 @@ public class UpdateUserUseCase extends UseCase<RequestCommand<UpdateUser>, Updat
 
     @Override
     public void executeUseCase(RequestCommand<UpdateUser> updateUserRequestCommand) {
-        var command = updateUserRequestCommand.getCommand();
-        var user = new User(command.UserId(), command.Name(), command.Date(), command.Email());
+        UpdateUser command = updateUserRequestCommand.getCommand();
+        User user = new User(command.UserId(), command.Name(), command.Date(), command.Email());
         data.save(transform(user));
         emit().onResponse(new Response(user));
     }
